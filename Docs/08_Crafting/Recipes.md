@@ -1,33 +1,42 @@
 # Recipes
 
-## Mục đích
-Định nghĩa cấu trúc dữ liệu và quy tắc chung cho công thức chế tạo (input
-→ output) áp dụng cho mọi trạm chế tạo trong game — nền tảng để
-[[Smelting]], [[Cooking]], [[Brewing]] tham chiếu thay vì định nghĩa lại
-từ đầu.
+## Cấu trúc (đã cài đặt: `Core/Crafting/Recipe.cs`)
+```
+Recipe { Id, OutputItemId, OutputQuantity, Ingredients: List<RecipeIngredient>, RequiredStation }
+RecipeIngredient { ItemId, Quantity }
+```
 
-## Nội dung cần điền
-- Cấu trúc 1 recipe: nguyên liệu đầu vào (loại + số lượng), sản phẩm đầu
-  ra, trạm chế tạo yêu cầu ([[CraftStations]]), thời gian chế tạo.
-- Recipe có yêu cầu `SkillLevel` NPC tối thiểu hay Progression tối thiểu
-  của người chơi không.
-- Cách recipe được mở khóa (liên hệ [[Unlocking]]) — theo tech tree, theo
-  NPC học nghề, hay theo quest.
-- Ai thực hiện recipe: người chơi thao tác trực tiếp (giai đoạn Người sống
-  sót/Thợ thủ công) hay NPC tự thực hiện theo hàng đợi khi `AutomationLevel`
-  đủ cao.
-- Tỷ lệ thành công/thất bại hoặc chất lượng đầu ra thay đổi theo kỹ năng
-  (có hay không).
-- Danh mục nhóm recipe (Weapon, Tool, Armor, Food, Potion, Building
-  Material...) để tổ chức UI chế tạo.
+## Quyết định (2026-07-28)
+- **Chế tạo tức thời** — không tốn tick/thời gian chờ ở giai đoạn này (đơn
+  giản hóa tạm thời, khác city builder có hàng đợi sản xuất; cân nhắc thêm
+  thời gian chờ khi có UI thật để craft "cảm" được).
+- **Người chơi tự thao tác** (đúng tinh thần giai đoạn Người sống sót/Thợ
+  thủ công trong [[Progression]]) — NPC tự chế tạo hàng loạt là việc tương
+  lai, chưa cài đặt (xem câu hỏi mở ở [[CraftingFlow]]).
+- **Thất bại không tiêu hao gì** — `CraftingSystem.TryCraft` chỉ trừ
+  nguyên liệu khi đủ điều kiện (đủ nguyên liệu + đúng trạm), nếu không đủ
+  trả về `false`, Inventory không đổi.
+- Chưa có yêu cầu `SkillLevel`/Progression tối thiểu cho recipe — chỉ phụ
+  thuộc nguyên liệu + trạm.
+
+## Danh mục recipe tối thiểu (đã cài đặt: `Core/Crafting/RecipeBook.cs`, 5 công thức)
+| Id | Nguyên liệu | Sản phẩm | Trạm yêu cầu |
+|---|---|---|---|
+| `craft_plank` | `wood` x1 | `plank` x4 | Không (tay không) |
+| `craft_wooden_axe` | `plank` x3 | `wooden_axe` x1 | Workbench |
+| `craft_wooden_pickaxe` | `plank` x3 | `wooden_pickaxe` x1 | Workbench |
+| `craft_stone_axe` | `plank` x2 + `stone` x3 | `stone_axe` x1 | Workbench |
+| `craft_stone_pickaxe` | `plank` x2 + `stone` x3 | `stone_pickaxe` x1 | Workbench |
+
+Đây là chuỗi tối thiểu để trải nghiệm được mốc "chế tạo công cụ đầu tiên":
+đốn gỗ (giả định) → `plank` (tay không) → rìu/cuốc gỗ (Workbench) → rìu/
+cuốc đá khi có đá. Mở rộng recipe khi có thêm item/công trình thật.
 
 ## Câu hỏi mở
-- Recipe chế tạo tức thời hay tốn thời gian thực/tick chờ (giống hàng đợi
-  sản xuất của city builder)?
-- Khi NPC tự chế tạo thay người chơi, hàng đợi recipe do người chơi định
-  cấu hình trước hay NPC tự quyết theo nhu cầu kho?
-- Recipe thất bại (thiếu nguyên liệu chất lượng) có tiêu hao một phần
-  nguyên liệu hay hoàn toàn không mất gì?
+- Khi nào cần recipe tốn thời gian thực (hàng đợi) thay vì tức thời — mốc
+  nào trong Progression nên chuyển đổi?
+- Recipe có nên phân nhóm hiển thị UI (Tool/Weapon/Food...) ngay từ cấu
+  trúc dữ liệu, hay để UI tự lọc theo `ItemCategory` của output?
 
 ## Liên kết
-[[ItemTypes]] · [[CraftStations]] · [[Unlocking]] · [[KingdomSystem]]
+[[ItemTypes]] · [[CraftStations]] · [[CraftingFlow]] · [[Unlocking]]

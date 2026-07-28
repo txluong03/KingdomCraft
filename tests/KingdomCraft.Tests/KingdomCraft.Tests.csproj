@@ -16,6 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\KingdomCraft.Core\KingdomCraft.Core.csproj" />
     <ProjectReference Include="..\..\src\KingdomCraft.Application\KingdomCraft.Application.csproj" />
+    <ProjectReference Include="..\..\src\KingdomCraft.Server\KingdomCraft.Server.csproj" />
+    <ProjectReference Include="..\..\src\KingdomCraft.Client\KingdomCraft.Client.csproj" />
   </ItemGroup>
 
 </Project>

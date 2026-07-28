@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace KingdomCraft.Core.Kingdom;
 
 /// <summary>
@@ -7,6 +9,7 @@ namespace KingdomCraft.Core.Kingdom;
 /// </summary>
 public class KingdomState
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public string Name { get; set; } = "Vương quốc chưa đặt tên";
 
     /// <summary>
@@ -19,4 +22,16 @@ public class KingdomState
     public List<KingdomCraft.Core.Entities.Npc> Npcs { get; set; } = new();
 
     public ResourceStockpile Resources { get; set; } = new();
+
+    /// <summary>Id các công nghệ đã nghiên cứu — xem Core/Technology/TechnologySystem.cs.</summary>
+    public HashSet<string> ResearchedTechnologyIds { get; set; } = new();
+
+    /// <summary>
+    /// Lock dùng chung cho MỌI AppService thao tác lên vương quốc này
+    /// (KingdomAppService, EconomyAppService...) — bắt buộc dùng chung 1 object
+    /// duy nhất, nếu mỗi AppService tự giữ lock riêng thì các lock đó không
+    /// loại trừ lẫn nhau và dữ liệu vẫn có thể bị race condition.
+    /// </summary>
+    [JsonIgnore]
+    public object SyncRoot { get; } = new();
 }

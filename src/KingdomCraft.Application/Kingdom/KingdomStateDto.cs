@@ -6,11 +6,13 @@ namespace KingdomCraft.Application.Kingdom;
 /// <summary>Dữ liệu chỉ-đọc trả về cho Client/Server thay vì lộ thẳng entity Core.</summary>
 public class KingdomStateDto
 {
+    public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public int AutomationLevel { get; set; }
     public List<BuildingDto> Buildings { get; set; } = new();
     public List<NpcDto> Npcs { get; set; } = new();
     public Dictionary<string, int> Resources { get; set; } = new();
+    public List<string> ResearchedTechnologyIds { get; set; } = new();
 }
 
 public class BuildingDto

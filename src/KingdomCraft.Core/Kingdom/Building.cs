@@ -37,6 +37,7 @@ public class Building
         BuildingType.Farm => ("food", 10 * Level),
         BuildingType.Mine => ("stone", 8 * Level),
         BuildingType.LumberMill => ("wood", 8 * Level),
+        BuildingType.Market => ("gold", 6 * Level),
         _ => null
     };
 }

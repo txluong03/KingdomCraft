@@ -1,26 +1,30 @@
 # Craft Stations
 
-## Mục đích
-Định nghĩa các trạm/công trình chế tạo (bàn thợ, lò rèn, lò nướng, vại ủ...)
-mà công thức trong [[Recipes]] yêu cầu — cầu nối giữa hệ chế tạo và hệ xây
-dựng ([[KingdomBuildings]]).
+## Quyết định (2026-07-28)
+Giai đoạn này chỉ có **2 trạm** (`Core/Crafting/CraftStation.cs`):
+- `None` — chế tạo tay không, mọi lúc mọi nơi.
+- `Workbench` — yêu cầu bàn thợ.
 
-## Nội dung cần điền
-- Danh sách trạm chế tạo: bàn thợ mộc (cơ bản), lò rèn ([[Smelting]]), bếp/
-  lò nướng ([[Cooking]]), vại ủ ([[Brewing]]), bàn nâng cấp ([[Upgrade]]).
-- Trạm nào là vật phẩm đặt được (liên hệ [[Furniture]]) và trạm nào gắn với
-  công trình vương quốc cấp lớn hơn (VD: Lò rèn quy mô trong Barracks).
-- Cấp độ trạm (Level) có ảnh hưởng tốc độ/chất lượng chế tạo như `Level`
-  của `Building` trong code không.
-- Trạm nào có thể gán NPC (`AssignedNpcId`) để tự vận hành liên tục, trạm
-  nào chỉ người chơi thao tác thủ công.
-- Yêu cầu tài nguyên/nhiên liệu vận hành (than, gỗ) theo thời gian.
-- Số lượng trạm tối đa mỗi vương quốc hoặc giới hạn theo dân số/diện tích.
+## Giản lược tạm thời — CHƯA gắn với vị trí thế giới thực
+`CraftingSystem.TryCraft` nhận tham số `bool hasStationAccess` do người
+gọi (Client/Game) tự xác định — **chưa** kiểm tra người chơi có thật sự
+đứng gần 1 Workbench đã đặt trong world hay không, vì world-placement cho
+vật phẩm đặt được ([[Furniture]]) chưa cài đặt. Đây là nợ kỹ thuật đã ghi
+ở [[TechnicalDebt]], cần xử lý khi làm [[BuildingFlow]]/[[Furniture]] thật.
+
+## Chưa có (để sau, tránh over-engineer ở quy mô hiện tại)
+- Trạm hao mòn/bảo trì theo thời gian.
+- Nhiều recipe chạy song song trên 1 trạm (hiện Craft là 1 hành động tức
+  thời, không có hàng đợi — xem [[Recipes]]).
+- Giới hạn số lượng trạm theo dân số/diện tích.
+- Trạm cấp lớn hơn gắn với `KingdomBuildings` (VD: lò rèn quy mô trong
+  Barracks) — Workbench hiện là khái niệm cá nhân, không phải `Building`.
 
 ## Câu hỏi mở
-- Trạm chế tạo có hao mòn/cần bảo trì theo thời gian như công cụ không?
-- Một trạm có thể chạy nhiều recipe song song (nhiều NPC cùng thao tác) hay
-  chỉ 1 hàng đợi tuần tự?
+- Khi world-placement có Workbench thật, kiểm tra "gần trạm" nên theo bán
+  kính (VD: 3 block) hay theo chunk hiện tại?
+- `Smelting`/`Cooking`/`Brewing` có nên là `CraftStation` riêng (Furnace,
+  Oven, Barrel) hay dùng chung `Workbench` với recipe khác nhau?
 
 ## Liên kết
-[[Recipes]] · [[KingdomBuildings]] · [[Furniture]] · [[KingdomSystem]]
+[[Recipes]] · [[KingdomBuildings]] · [[Furniture]] · [[TechnicalDebt]]

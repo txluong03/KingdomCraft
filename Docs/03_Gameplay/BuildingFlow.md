@@ -1,24 +1,34 @@
 # Building Flow — KingdomCraft
 
-## Mục đích
-Mô tả luồng xây dựng công trình vương quốc (đặt, nâng cấp, gán NPC quản
-lý), dùng trực tiếp `Building`/`BuildingType` trong
-`src/KingdomCraft.Core/Kingdom/Building.cs` — khác với xây tự do bằng khối
-kiểu Minecraft (thuộc phạm vi world/voxel), file này tập trung vào công
-trình có chức năng kinh tế/quản lý.
+## Đã cài đặt (2026-07-28, `KingdomAppService`)
+- `CreateBuilding(CreateBuildingInput{Type, Name?, Level?})` → `BuildingDto`
+  — thêm công trình vào `KingdomState.Buildings` (mặc định `Level = 1`).
+- Sản lượng công trình xem [[KingdomBuildings]] (`GetProductionPerTick`,
+  vừa thêm `Market` → Gold).
+- **Chưa có** chi phí tài nguyên khi tạo công trình — `CreateBuilding`
+  hiện không trừ `ResourceStockpile` (khác `TryConstructBuilding` cũ ở bộ
+  code turn-based đã xóa Bước 0, vốn có `TrySpend` gold). Đây là hạn chế
+  cố ý để giữ Bước 2 tập trung vào luồng chức năng — thêm chi phí khi có
+  UI xây dựng thật (xem câu hỏi mở).
 
-## Nội dung cần điền
-- Danh sách `BuildingType` hiện có (TownHall, Farm, LumberMill, Mine, Barracks, Market, House, Wall, Custom) và chức năng từng loại
-- Luồng đặt công trình: chọn vị trí, yêu cầu tài nguyên (`ResourceStockpile`), thời gian xây/tức thời
-- Cơ chế nâng cấp `Level` của Building — chi phí và lợi ích tăng theo cấp
-- Gán NPC quản lý công trình (`AssignedNpcId`) — luồng thao tác cụ thể, giới hạn số NPC mỗi công trình
-- Loại `Custom` — phạm vi cho phép người chơi tự thiết kế công trình tự do đến đâu
-- Ràng buộc quy hoạch (khoảng cách giữa các công trình, giới hạn theo lãnh thổ)
-- Trực quan hóa công trình trong world voxel (kích thước thật, blueprint đặt trước khi xây)
+## Nội dung cần điền (chưa cài đặt)
+- Luồng đặt công trình trong world thật: chọn vị trí, trực quan hóa
+  blueprint trước khi xây, kích thước thật trong voxel.
+- Chi phí tài nguyên + thời gian xây/nâng cấp `Level`.
+- Gán NPC quản lý công trình (`AssignedNpcId`) — field đã có trên
+  `Building` nhưng **chưa có method trong `KingdomAppService`** để gán
+  (khác với gán `Role` cho NPC qua `AssignNpcRole`) — cần thêm khi làm UI
+  xây dựng.
+- Loại `Custom` — phạm vi tự do tới đâu.
+- Ràng buộc quy hoạch (khoảng cách, giới hạn lãnh thổ).
 
 ## Câu hỏi mở
-- Khi AutomationLevel đủ cao, Steward có được phép tự đề xuất/xây công trình mới thay người chơi không (đã nêu là câu hỏi mở ở [[KingdomSystem]]) — nếu có, luồng phê duyệt của người chơi diễn ra thế nào trong UI?
-- Công trình `Custom` (tự do) có tương tác gì với hệ thống sản lượng tự động, hay chỉ mang tính thẩm mỹ?
+- Chi phí xây dựng nên thêm ngay vào `CreateBuilding` (trừ
+  `ResourceStockpile`, có thể fail nếu không đủ) hay để tới khi có UI mới
+  thêm, tránh phải sửa lại chữ ký API 2 lần?
+- Khi `AutomationLevel` đủ cao, Steward có được tự đề xuất/xây công trình
+  mới qua `KingdomAppService` thay người chơi không (đã nêu ở
+  [[KingdomSystem]])?
 
 ## Liên kết
-[[KingdomSystem]] · [[NPCFlow]] · [[TechnologyTree]] · [[Economy]]
+[[KingdomSystem]] · [[KingdomBuildings]] · [[NPCFlow]] · [[Economy]]

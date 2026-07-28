@@ -1,22 +1,32 @@
 # Crafting Flow — KingdomCraft
 
-## Mục đích
-Mô tả luồng chế tạo công cụ/vật phẩm từ nguyên liệu thô — mốc mở khóa giai
-đoạn "Thợ thủ công" trong [[Progression]] ("chế tạo công cụ đầu tiên").
-File này tập trung vào luồng thao tác (UI, bàn chế tạo, công thức), số
-liệu recipe cụ thể thuộc [[Recipes]]/[[ItemBalance]].
+## Đã cài đặt (2026-07-28, `CraftingAppService`)
+- `GetAllRecipes()` → danh sách `RecipeDto` (5 recipe, xem [[Recipes]]).
+- `Craft(CraftInput{RecipeId, HasStationAccess})` → `CraftResultDto`
+  (`Success`, `Message`, `InventorySnapshot`) — trừ nguyên liệu, cộng
+  thành phẩm vào `Player.Inventory` nếu đủ điều kiện (nguyên liệu + trạm
+  đúng theo [[CraftStations]]); thất bại không đổi Inventory.
+- Vật phẩm đánh dấu mốc "Thợ thủ công" cụ thể: `wooden_axe` hoặc
+  `wooden_pickaxe` (công cụ gỗ đầu tiên chế tạo được) — trùng điều kiện
+  quest `quest_first_tool` ở [[QuestFlow]].
 
-## Nội dung cần điền
-- Bàn chế tạo/trạm chế tạo cần có (Crafting Table, Furnace/lò nung...) và điều kiện mở khóa
-- Luồng thao tác chế tạo (kéo thả nguyên liệu, chế tạo hàng loạt, chế tạo tại chỗ vs tại trạm)
-- Cây tiến hóa vật liệu công cụ (Đá → Đồng → Sắt..., liên hệ [[TechnologyTree]])
-- Vật phẩm nào đánh dấu mốc chuyển giai đoạn "Thợ thủ công" cụ thể là gì (công cụ đầu tiên nào)
-- Chế tạo hàng loạt/tự động khi có NPC hoặc công trình sản xuất (liên hệ [[BuildingFlow]])
-- Vai trò của Blueprint/công thức chưa mở khóa (ẩn cho tới khi đủ điều kiện)
+## Nội dung cần điền (chưa cài đặt)
+- Bàn chế tạo/trạm chế tạo đặt được trong world (`Workbench` hiện chỉ là
+  điều kiện logic, chưa phải vật thể — xem [[CraftStations]]).
+- Luồng thao tác UI (kéo thả nguyên liệu, chế tạo hàng loạt).
+- Cây tiến hóa vật liệu công cụ đầy đủ (Đồng → Sắt..., liên hệ
+  [[TechnologyTree]]) — hiện chỉ có Đá (Stone Age tier).
+- Chế tạo tự động khi có NPC/công trình sản xuất — hiện Craft luôn do
+  người chơi gọi trực tiếp qua `CraftingAppService`.
+- Blueprint/công thức chưa mở khóa (ẩn cho tới khi đủ điều kiện) — hiện
+  `GetAllRecipes()` trả về tất cả, không có khái niệm khóa/mở khóa.
 
 ## Câu hỏi mở
-- Khi vương quốc phát triển, chế tạo công cụ có được giao cho NPC (VD: Blacksmith) tự động sản xuất hàng loạt không, hay đây là hoạt động người chơi luôn giữ lại vì gắn với "Thợ thủ công" là danh tính giai đoạn đó?
-- Công thức chế tạo có cần độ ngẫu nhiên/khám phá (thử nguyên liệu) hay hoàn toàn hiển thị rõ từ đầu như Minecraft?
+- Khi vương quốc phát triển, chế tạo công cụ có giao cho NPC Blacksmith tự
+  động sản xuất hàng loạt không, hay luôn giữ lại cho người chơi vì gắn
+  với danh tính giai đoạn "Thợ thủ công"?
+- Công thức có cần độ ngẫu nhiên/khám phá hay hiển thị rõ từ đầu (hiện tại
+  là hiển thị rõ — `GetAllRecipes()` không ẩn gì)?
 
 ## Liên kết
-[[Progression]] · [[TechnologyTree]] · [[BuildingFlow]] · [[Recipes]]
+[[Progression]] · [[Recipes]] · [[ItemTypes]] · [[TechnologyTree]] · [[BuildingFlow]]

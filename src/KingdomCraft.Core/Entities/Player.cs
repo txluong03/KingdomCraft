@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+using KingdomCraft.Core.Quests;
+
 namespace KingdomCraft.Core.Entities;
 
 public class Player
@@ -15,4 +18,9 @@ public class Player
     public (int X, int Y, int Z) Position { get; set; }
 
     public Inventory Inventory { get; } = new();
+    public QuestLog QuestLog { get; } = new();
+
+    /// <summary>Lock dùng chung cho mọi AppService thao tác lên người chơi này (Crafting, Quest, Combat...).</summary>
+    [JsonIgnore]
+    public object SyncRoot { get; } = new();
 }

@@ -1,0 +1,67 @@
+[
+  {
+    "Id": "0c6f7470-f2b6-4cde-8a32-3e34871fd0af",
+    "Name": "V\u01B0\u01A1ng qu\u1ED1c m\u1EABu",
+    "AutomationLevel": 0,
+    "Buildings": [],
+    "Npcs": [],
+    "Resources": {
+      "Amounts": {}
+    },
+    "ResearchedTechnologyIds": []
+  },
+  {
+    "Id": "1d4700ac-a498-4c57-9396-34b3c30c5730",
+    "Name": "V\u01B0\u01A1ng qu\u1ED1c c\u1EE7a Ng\u01B0\u1EDDi ch\u01A1i",
+    "AutomationLevel": 5,
+    "Buildings": [],
+    "Npcs": [
+      {
+        "Id": "2b63cb9f-4221-4831-80f3-25c7f253cce5",
+        "Name": "",
+        "Role": "Farmer",
+        "SkillLevel": 3,
+        "Position": {}
+      }
+    ],
+    "Resources": {
+      "Amounts": {
+        "food": 3318
+      }
+    },
+    "ResearchedTechnologyIds": []
+  },
+  {
+    "Id": "5a7afb23-555b-4acb-81a3-5f814edb0843",
+    "Name": "V\u01B0\u01A1ng qu\u1ED1c c\u1EE7a Ng\u01B0\u1EDDi ch\u01A1i",
+    "AutomationLevel": 0,
+    "Buildings": [],
+    "Npcs": [],
+    "Resources": {
+      "Amounts": {}
+    },
+    "ResearchedTechnologyIds": []
+  },
+  {
+    "Id": "d270c9de-d58d-42d9-82b6-47226a79d020",
+    "Name": "V\u01B0\u01A1ng qu\u1ED1c c\u1EE7a Ng\u01B0\u1EDDi ch\u01A1i",
+    "AutomationLevel": 0,
+    "Buildings": [],
+    "Npcs": [],
+    "Resources": {
+      "Amounts": {}
+    },
+    "ResearchedTechnologyIds": []
+  },
+  {
+    "Id": "f6db2578-b668-4bcc-abf2-24a9102f6054",
+    "Name": "V\u01B0\u01A1ng qu\u1ED1c c\u1EE7a Ng\u01B0\u1EDDi ch\u01A1i",
+    "AutomationLevel": 0,
+    "Buildings": [],
+    "Npcs": [],
+    "Resources": {
+      "Amounts": {}
+    },
+    "ResearchedTechnologyIds": []
+  }
+]

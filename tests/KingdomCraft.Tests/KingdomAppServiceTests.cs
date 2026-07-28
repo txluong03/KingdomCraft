@@ -52,6 +52,26 @@ public class KingdomAppServiceTests
     }
 
     [Fact]
+    public void TrainNpc_IncreasesSkillLevel()
+    {
+        var appService = new KingdomAppService(new KingdomState());
+        var npc = appService.RecruitNpc(new RecruitNpcInput { Role = NpcRole.Farmer, SkillLevel = 2 });
+
+        var trained = appService.TrainNpc(new TrainNpcInput { NpcId = npc.Id, SkillIncrease = 3 });
+
+        Assert.Equal(5, trained.SkillLevel);
+    }
+
+    [Fact]
+    public void TrainNpc_UnknownNpcId_Throws()
+    {
+        var appService = new KingdomAppService(new KingdomState());
+
+        Assert.Throws<InvalidOperationException>(() =>
+            appService.TrainNpc(new TrainNpcInput { NpcId = "khong-ton-tai" }));
+    }
+
+    [Fact]
     public void Tick_RecruitedFarmerProducesFood_ReflectedInDto()
     {
         var appService = new KingdomAppService(new KingdomState());

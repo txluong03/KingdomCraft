@@ -1,30 +1,36 @@
 # Blocks
 
-## Mục đích
-Định nghĩa hệ thống khối voxel (`BlockType`) dùng để xây dựng tự do trong
-thế giới — nền tảng kỹ thuật giống Minecraft mà KingdomCraft kế thừa, làm
-cơ sở cho [[Structure]], [[Physics]] và [[KingdomBuildings]].
+## Danh sách hiện có (khớp `src/KingdomCraft.Core/World/Chunk.cs`)
+`BlockType`: Air, Dirt, Grass, Stone, Wood, Sand, Water. Chưa có thuộc
+tính độ cứng/tool yêu cầu/drop item cụ thể trong code — đây là file định
+hướng cho khi cài đặt tương tác đào/phá thật.
 
-## Nội dung cần điền
-- Danh sách đầy đủ `BlockType` (hiện có: Air, Dirt, Grass, Stone, Wood,
-  Sand, Water...) và các loại cần bổ sung theo thời đại công nghệ (gạch,
-  bê tông, kính, kim loại...).
-- Thuộc tính mỗi block: độ cứng (thời gian phá), công cụ yêu cầu để khai
-  thác hiệu quả (liên hệ [[Tools]]), có rơi vật phẩm khi phá không.
-- Block trong suốt/không rắn (Water, Air, kính) và ảnh hưởng tới
-  [[Physics]] (chảy, ánh sáng xuyên qua).
-- Block chức năng đặc biệt (phát sáng, dẫn điện thời đại Electricity) khác
-  block trang trí thuần túy.
-- Quy tắc đặt/phá block: giới hạn tầm với, giới hạn theo lãnh thổ vương
-  quốc hay tự do như Minecraft.
-- Ánh xạ block ↔ tài nguyên khi phá (VD: phá Stone rơi item Stone trong
-  [[Resources]]).
+## Ý định thiết kế — ánh xạ Block → Item (CHƯA cài đặt)
+| BlockType | Item rơi ra (dự kiến) | Công cụ hiệu quả (dự kiến) |
+|---|---|---|
+| Stone | `stone` ([[ItemTypes]]) | `stone_pickaxe`/`wooden_pickaxe` |
+| Wood | `wood` | `stone_axe`/`wooden_axe` |
+| Dirt/Grass/Sand | (chưa quyết — có thể không rơi item ở bản demo) | — |
+| Water/Air | Không rơi gì | — |
+
+**Trạng thái:** đây là ý định thiết kế để tài liệu và code (`ItemCatalog`)
+đã sẵn item `wood`/`stone` khớp nhau khi triển khai — `Game1`
+(`src/KingdomCraft.Client`) hiện phá khối chỉ set `Air`, **chưa** cộng
+item vào `Player.Inventory` (Client demo hiện không có `Player` instance).
+Việc nối World→Item→Inventory cần thêm `Player` + HUD hiển thị inventory ở
+Client, ghi nhận là việc tiếp theo ở [[TechnicalDebt]].
+
+## Chưa quyết (để sau khi có thao tác đào/phá thật)
+- Độ cứng (thời gian phá) từng loại block.
+- Block trong suốt/không rắn ảnh hưởng [[Physics]] (Water chảy, ánh sáng
+  qua kính...).
+- Giới hạn xây/phá theo lãnh thổ vương quốc hay tự do toàn bản đồ.
+- Block mới theo thời đại công nghệ ([[TechnologyTree]]: gạch, bê tông,
+  kim loại...).
 
 ## Câu hỏi mở
-- Thế giới có giới hạn xây dựng theo lãnh thổ vương quốc (không xây được
-  ngoài biên giới) hay tự do toàn bản đồ như Minecraft thuần?
-- Block có hệ thống ánh sáng/dẫn điện phức tạp (redstone-like) cho thời đại
-  Electricity/Automation hay giữ đơn giản?
+- Có cần công cụ đúng loại mới phá được (như Minecraft: cuốc mới phá được
+  đá) hay phá được bằng tay, công cụ chỉ tăng tốc độ?
 
 ## Liên kết
-[[Structure]] · [[Physics]] · [[Resources]] · [[Tools]]
+[[ItemTypes]] · [[Structure]] · [[Physics]] · [[TechnicalDebt]]

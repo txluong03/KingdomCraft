@@ -2,6 +2,7 @@ using KingdomCraft.Core.Entities;
 using KingdomCraft.Core.Simulation;
 using CoreBuilding = KingdomCraft.Core.Kingdom.Building;
 using CoreKingdomState = KingdomCraft.Core.Kingdom.KingdomState;
+using CoreTechnologySystem = KingdomCraft.Core.Technology.TechnologySystem;
 
 namespace KingdomCraft.Application.Kingdom;
 
@@ -16,66 +17,128 @@ public class KingdomAppService
 {
     private readonly CoreKingdomState _kingdom;
     private readonly AutomationSystem _automationSystem = new();
+    private readonly CoreTechnologySystem _technologySystem = new();
+    private readonly object _syncRoot;
 
     public KingdomAppService(CoreKingdomState kingdom)
     {
         _kingdom = kingdom;
+        _syncRoot = kingdom.SyncRoot;
     }
 
-    public KingdomStateDto GetKingdomState() => Map(_kingdom);
+    public KingdomStateDto GetKingdomState()
+    {
+        lock (_syncRoot)
+        {
+            return Map(_kingdom);
+        }
+    }
 
     /// <summary>Chạy 1 tick mô phỏng (xem GameLoop.md) và trả về trạng thái mới nhất.</summary>
     public KingdomStateDto Tick()
     {
-        _automationSystem.Tick(_kingdom);
-        return Map(_kingdom);
+        lock (_syncRoot)
+        {
+            _automationSystem.Tick(_kingdom);
+            return Map(_kingdom);
+        }
     }
 
     public BuildingDto CreateBuilding(CreateBuildingInput input)
     {
-        var building = new CoreBuilding
+        lock (_syncRoot)
         {
-            Type = input.Type,
-            Name = input.Name ?? string.Empty,
-            Level = input.Level ?? 1
-        };
+            if (!_technologySystem.IsBuildingUnlocked(_kingdom, input.Type))
+            {
+                throw new InvalidOperationException($"Công trình '{input.Type}' chưa được mở khóa — cần nghiên cứu công nghệ tương ứng trước.");
+            }
 
-        _kingdom.Buildings.Add(building);
-        return MapBuilding(building);
+            var building = new CoreBuilding
+            {
+                Type = input.Type,
+                Name = input.Name ?? string.Empty,
+                Level = input.Level ?? 1
+            };
+
+            _kingdom.Buildings.Add(building);
+            return MapBuilding(building);
+        }
     }
 
     public NpcDto RecruitNpc(RecruitNpcInput input)
     {
-        var npc = new Npc
+        lock (_syncRoot)
         {
-            Name = input.Name ?? string.Empty,
-            Role = input.Role,
-            SkillLevel = input.SkillLevel ?? 1
-        };
+            var npc = new Npc
+            {
+                Name = input.Name ?? string.Empty,
+                Role = input.Role,
+                SkillLevel = input.SkillLevel ?? 1
+            };
 
-        _kingdom.Npcs.Add(npc);
-        return MapNpc(npc);
+            _kingdom.Npcs.Add(npc);
+            return MapNpc(npc);
+        }
     }
 
     public NpcDto AssignNpcRole(AssignNpcRoleInput input)
     {
-        var npc = _kingdom.Npcs.FirstOrDefault(n => n.Id == input.NpcId);
-        if (npc is null)
+        lock (_syncRoot)
         {
-            throw new InvalidOperationException($"Không tìm thấy NPC có Id '{input.NpcId}'.");
-        }
+            var npc = _kingdom.Npcs.FirstOrDefault(n => n.Id == input.NpcId);
+            if (npc is null)
+            {
+                throw new InvalidOperationException($"Không tìm thấy NPC có Id '{input.NpcId}'.");
+            }
 
-        npc.Role = input.Role;
-        return MapNpc(npc);
+            npc.Role = input.Role;
+            return MapNpc(npc);
+        }
+    }
+
+    /// <summary>Huấn luyện/thăng cấp NPC — tăng SkillLevel (xem Docs/06_NPC_AI/VillagerAI.md).</summary>
+    public NpcDto TrainNpc(TrainNpcInput input)
+    {
+        lock (_syncRoot)
+        {
+            var npc = _kingdom.Npcs.FirstOrDefault(n => n.Id == input.NpcId);
+            if (npc is null)
+            {
+                throw new InvalidOperationException($"Không tìm thấy NPC có Id '{input.NpcId}'.");
+            }
+
+            npc.SkillLevel += input.SkillIncrease;
+            return MapNpc(npc);
+        }
+    }
+
+    /// <summary>Nghiên cứu công nghệ (tiêu tốn Gold) — xem Docs/02_GDD/TechnologyTree.md.</summary>
+    public TechnologyResultDto ResearchTechnology(ResearchTechnologyInput input)
+    {
+        lock (_syncRoot)
+        {
+            var success = _technologySystem.TryResearch(_kingdom, input.TechnologyId);
+
+            return new TechnologyResultDto
+            {
+                Success = success,
+                Message = success
+                    ? "Nghiên cứu thành công."
+                    : "Không thể nghiên cứu (công nghệ không tồn tại, đã nghiên cứu rồi, hoặc không đủ Gold).",
+                ResearchedTechnologyIds = _kingdom.ResearchedTechnologyIds.ToList()
+            };
+        }
     }
 
     private static KingdomStateDto Map(CoreKingdomState kingdom) => new()
     {
+        Id = kingdom.Id,
         Name = kingdom.Name,
         AutomationLevel = kingdom.AutomationLevel,
         Buildings = kingdom.Buildings.Select(MapBuilding).ToList(),
         Npcs = kingdom.Npcs.Select(MapNpc).ToList(),
-        Resources = new Dictionary<string, int>(kingdom.Resources.Amounts)
+        Resources = new Dictionary<string, int>(kingdom.Resources.Amounts),
+        ResearchedTechnologyIds = kingdom.ResearchedTechnologyIds.ToList()
     };
 
     private static BuildingDto MapBuilding(CoreBuilding building) => new()

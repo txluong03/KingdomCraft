@@ -17,6 +17,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KingdomCraft.Core\KingdomCraft.Core.csproj" />
+    <ProjectReference Include="..\KingdomCraft.Application\KingdomCraft.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
 
 </Project>
