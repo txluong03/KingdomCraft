@@ -32,6 +32,15 @@ public class AutomationSystem
             }
         }
 
+        foreach (var building in kingdom.Buildings)
+        {
+            var production = building.GetProductionPerTick();
+            if (production is not null)
+            {
+                kingdom.Resources.Add(production.Value.ResourceName, production.Value.Amount);
+            }
+        }
+
         RecalculateAutomationLevel(kingdom);
     }
 

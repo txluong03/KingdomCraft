@@ -4,10 +4,10 @@ Chia theo sprint, bám [[DevelopmentRoadmap]]. Điền ngày thật khi có kế
 cụ thể — hiện để dạng thứ tự tương đối.
 
 ## Sprint 1 — Dọn nền tảng
-- [ ] Khởi tạo git repository (`Is a git repository: false` — chưa có!)
-- [ ] Hợp nhất 2 bộ model (xem [[DevelopmentRoadmap]] Bước 0)
-- [ ] Xóa project mồ côi `KingdomCraft.Game`, cập nhật `.sln`
-- [ ] CI tối thiểu: build + test tự động (xem [[CI_CD]])
+- [x] Khởi tạo git repository, push/pull với remote (2026-07-28)
+- [x] Hợp nhất 2 bộ model (xem [[DevelopmentRoadmap]] Bước 0) (2026-07-28)
+- [x] Xóa project mồ côi `KingdomCraft.Game`, cập nhật `.sln` (2026-07-28)
+- [ ] CI tối thiểu: build + test tự động (xem [[CI_CD]]) — `.github/` hiện chỉ có `copilot-instructions.md`, chưa có workflow
 
 ## Sprint 2 — Core Loop
 - [ ] `Player` + `Inventory` cơ bản

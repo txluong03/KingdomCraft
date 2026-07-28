@@ -14,8 +14,8 @@
 | Rủi ro | Ảnh hưởng | Giảm thiểu |
 |---|---|---|
 | **Scope creep** — cấu trúc tài liệu mô tả quy mô ~140 file, 180+ bảng DB, 250+ API cho quy mô đội hiện tại rất nhỏ | Không bao giờ ra được bản chơi được | Bám chặt [[ProjectScope]] Core Scope, không code phần Extended Scope trước khi Core ổn định |
-| 2 bộ model song song chưa hợp nhất trong code hiện tại | Nhầm lẫn, code thừa, bug khó debug | Xử lý ngay ở Sprint 1, xem [[DevelopmentRoadmap]] |
-| Chưa có git repository | Không rollback được, dễ mất code | Khởi tạo git ngay, xem [[BranchStrategy]] |
+| ~~2 bộ model song song chưa hợp nhất~~ | Nhầm lẫn, code thừa, bug khó debug | **Đã xử lý (2026-07-28)**, xem [[Decisions]], [[KnownIssues]] |
+| ~~Chưa có git repository~~ | Không rollback được, dễ mất code | **Đã xử lý** — đã init + push/pull, còn thiếu áp dụng đầy đủ [[BranchStrategy]] (feature branch/PR) |
 | Tài liệu đi trước code quá xa | Tài liệu lỗi thời so với thực tế | Cập nhật doc song song với mỗi sprint, không viết một lần rồi bỏ quên |
 
 ## Liên kết

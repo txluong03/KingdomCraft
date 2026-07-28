@@ -26,4 +26,17 @@ public class Building
 
     /// <summary>NPC nào (nếu có) đang quản lý công trình này.</summary>
     public string? AssignedNpcId { get; set; }
+
+    /// <summary>
+    /// Sản lượng thụ động mỗi tick, độc lập với NPC được gán (xem
+    /// <see cref="KingdomCraft.Core.Simulation.AutomationSystem"/>). Trả về null
+    /// nếu loại công trình không tự sản xuất tài nguyên.
+    /// </summary>
+    public (string ResourceName, int Amount)? GetProductionPerTick() => Type switch
+    {
+        BuildingType.Farm => ("food", 10 * Level),
+        BuildingType.Mine => ("stone", 8 * Level),
+        BuildingType.LumberMill => ("wood", 8 * Level),
+        _ => null
+    };
 }

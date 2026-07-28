@@ -20,6 +20,18 @@ public class AutomationSystemTests
     }
 
     [Fact]
+    public void Tick_FarmBuildingProducesFoodIndependentlyOfNpc()
+    {
+        var kingdom = new KingdomState();
+        kingdom.Buildings.Add(new Building { Type = BuildingType.Farm, Level = 2 });
+
+        var system = new AutomationSystem();
+        system.Tick(kingdom);
+
+        Assert.Equal(20, kingdom.Resources.Get("food"));
+    }
+
+    [Fact]
     public void Tick_StewardIncreasesAutomationLevelMore()
     {
         var kingdom = new KingdomState();

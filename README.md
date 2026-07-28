@@ -20,7 +20,7 @@ KingdomCraft/
 │   └── KingdomCraft.Server/    # Server headless cho multiplayer
 ├── tests/
 │   └── KingdomCraft.Tests/     # Unit test (xUnit)
-└── KingdomCraft-Docs/          # Tài liệu dự án đầy đủ (xem KingdomCraft-Docs/README.md)
+└── Docs/                       # Tài liệu dự án đầy đủ (xem Docs/README.md)
 ```
 
 ## Yêu cầu
@@ -35,7 +35,7 @@ dotnet run --project src/KingdomCraft.Server
 ```
 
 ## Tài liệu dự án
-Xem thư mục `KingdomCraft-Docs/` — bộ tài liệu đầy đủ 21 nhóm (Project, BRD,
+Xem thư mục `Docs/` — bộ tài liệu đầy đủ 21 nhóm (Project, BRD,
 GDD, Gameplay, World Generation, Player, NPC/AI, Items, Crafting, Building,
 Combat, Database, API, Server, UI/UX, TestCase, Deployment, Art, Audio, Lore,
 DevLogs). `00_Project/ProjectVision.md` và `00_Project/ProjectScope.md` là

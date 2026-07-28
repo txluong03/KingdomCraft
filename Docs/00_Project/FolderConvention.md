@@ -14,7 +14,7 @@ KingdomCraft/
 │   └── KingdomCraft.Server/    # Server headless cho multiplayer
 ├── tests/
 │   └── KingdomCraft.Tests/     # Unit test (xUnit)
-└── KingdomCraft-Docs/          # Toàn bộ tài liệu (thư mục này)
+└── Docs/                       # Toàn bộ tài liệu (thư mục này)
 ```
 
 ## Quy tắc thêm thư mục con trong `Core`
@@ -30,9 +30,10 @@ Namespace phản chiếu đúng đường dẫn thư mục:
 `KingdomCraft.Core.Kingdom` ↔ `src/KingdomCraft.Core/Kingdom/`.
 
 ## Quy tắc project mới
-- Không tạo project mà không thêm vào `KingdomCraft.sln` — hiện
-  `KingdomCraft.Game` bị mồ côi (không có trong `.sln`), sẽ được xử lý ở
-  [[DevelopmentRoadmap]] Bước 0.
+- Không tạo project mà không thêm vào `KingdomCraft.sln`. Project mồ côi
+  `KingdomCraft.Game` đã bị xóa khi xử lý [[DevelopmentRoadmap]] Bước 0
+  (2026-07-28) — `KingdomCraft.Server` là entry point chạy thử duy nhất còn
+  lại cho tới khi có Client thật.
 - Project mới cần lý do rõ ràng gắn với tầng kiến trúc: `Core` (logic),
   `Client`/`Server` (presentation), `Tests`. Chỉ thêm `Data`/`Api` khi thực
   sự cần lưu trữ/expose ra ngoài (xem [[Database]], [[API]]).
