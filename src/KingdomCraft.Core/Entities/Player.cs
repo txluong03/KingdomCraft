@@ -14,5 +14,5 @@ public class Player
 
     public (int X, int Y, int Z) Position { get; set; }
 
-    public Dictionary<string, int> Inventory { get; set; } = new();
+    public Inventory Inventory { get; } = new();
 }

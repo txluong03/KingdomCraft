@@ -10,9 +10,9 @@ cụ thể — hiện để dạng thứ tự tương đối.
 - [ ] CI tối thiểu: build + test tự động (xem [[CI_CD]]) — `.github/` hiện chỉ có `copilot-instructions.md`, chưa có workflow
 
 ## Sprint 2 — Core Loop
-- [ ] `Player` + `Inventory` cơ bản
-- [ ] `Chunk` render ở Client, đặt/phá khối
-- [ ] Test cho `AutomationSystem` (đã có khung, mở rộng thêm case)
+- [x] `Player` + `Inventory` cơ bản (2026-07-28) — `Inventory`/`ItemStack` dạng slot, gắn vào `Player.Inventory`
+- [x] `Chunk` render ở Client, đặt/phá khối (2026-07-28) — `Game1`/`ChunkMeshBuilder`/`VoxelRaycaster`/`FlyCamera`; build sạch nhưng **chưa được kiểm tra trực quan** (môi trường này không có màn hình) — cần tự chạy `dotnet run --project src/KingdomCraft.Client` để xác nhận
+- [x] Test cho `AutomationSystem` (2026-07-28) — thêm case Miner, cộng dồn NPC+Building, cap `AutomationLevel` ở 100
 
 ## Sprint 3 — Building & NPC
 - [ ] Mở rộng `Building` (nhiều loại, level)

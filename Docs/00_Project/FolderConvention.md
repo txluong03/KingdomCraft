@@ -10,6 +10,8 @@ KingdomCraft/
 │   │   ├── Entities/           # Player, Npc
 │   │   ├── Kingdom/            # Building, ResourceStockpile, KingdomState
 │   │   └── Simulation/         # AutomationSystem — cơ chế NPC tự động
+│   ├── KingdomCraft.Application/ # AppService + DTO (ranh giới dùng chung cho Server/Client)
+│   │   └── Kingdom/            # KingdomAppService, KingdomStateDto, *Input
 │   ├── KingdomCraft.Client/    # Client MonoGame (render, input)
 │   └── KingdomCraft.Server/    # Server headless cho multiplayer
 ├── tests/
@@ -35,8 +37,13 @@ Namespace phản chiếu đúng đường dẫn thư mục:
   (2026-07-28) — `KingdomCraft.Server` là entry point chạy thử duy nhất còn
   lại cho tới khi có Client thật.
 - Project mới cần lý do rõ ràng gắn với tầng kiến trúc: `Core` (logic),
-  `Client`/`Server` (presentation), `Tests`. Chỉ thêm `Data`/`Api` khi thực
-  sự cần lưu trữ/expose ra ngoài (xem [[Database]], [[API]]).
+  `Application` (AppService/DTO), `Client`/`Server` (presentation), `Tests`.
+  Chỉ thêm `EntityFrameworkCore`/`Api` khi thực sự cần lưu trữ/expose ra
+  ngoài (xem [[Database]], [[API]]).
+- `KingdomCraft.Application` (2026-07-28) — mượn convention `FooAppService`
+  từ dự án OC-TXNG (ABP Boilerplate) nhưng **chỉ mượn khung**, không kèm
+  EF Core/multi-tenant/RBAC vì chưa cần ở quy mô hiện tại — xem
+  [[Decisions]] và [[DevelopmentRoadmap]].
 
 ## Liên kết
 [[CodingConvention]] · [[NamingConvention]]

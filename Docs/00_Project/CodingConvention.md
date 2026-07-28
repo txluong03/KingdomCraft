@@ -13,10 +13,24 @@ Stack: .NET 8, C#. Xem [[NamingConvention]] cho quy tắc đặt tên chi tiết
 - **Mọi thay đổi trạng thái quan trọng đi qua 1 điểm rõ ràng**, tương tự vai
   trò `GameEngine`/`AutomationSystem` hiện tại — tránh sửa trực tiếp field
   của entity từ nhiều nơi rải rác.
-- Chuẩn bị cho Clean Architecture khi thêm `Database`/`API`: Core (domain) →
-  Application (use case) → Infrastructure (DB, network) → Presentation
-  (Client/Server entry point). Chưa cần áp dụng đầy đủ CQRS/DDD khi project
-  còn nhỏ — thêm khi độ phức tạp thực sự đòi hỏi.
+- Clean Architecture theo hướng Core (domain) → Application (use case) →
+  Infrastructure (DB, network) → Presentation (Client/Server entry point).
+  **Layer Application đã thêm (2026-07-28)** — mượn convention
+  `FooAppService` nhận `CreateFooInput`/trả `FooDto` từ dự án OC-TXNG (ABP
+  Boilerplate), nhưng chỉ mượn khung: KHÔNG multi-tenant, KHÔNG RBAC/
+  Permission, KHÔNG EF Core — những phần đó chỉ thêm khi thật sự cần (xem
+  [[Decisions]]). Quy tắc:
+  - Domain entity (`KingdomCraft.Core`) không bao giờ được trả thẳng ra
+    ngoài Application layer — luôn map qua DTO (`KingdomStateDto`,
+    `BuildingDto`, `NpcDto`...).
+  - AppService đặt trong `Application/<Domain>/`, đúng tên domain folder ở
+    Core (VD: `Application/Kingdom/KingdomAppService.cs` ứng với
+    `Core/Kingdom/`).
+  - Server/Client tương lai gọi qua AppService, không gọi thẳng
+    `AutomationSystem`/`KingdomState` — chuẩn bị sẵn ranh giới cho
+    networking (Bước 3) và Save/Load (Bước 5) mà không cần viết lại.
+  - Chưa cần áp dụng đầy đủ CQRS/DDD khi project còn nhỏ — thêm khi độ
+    phức tạp thực sự đòi hỏi.
 
 ## Quy tắc code
 - Nullable reference types: bật, xử lý rõ ràng thay vì `!` bừa bãi.

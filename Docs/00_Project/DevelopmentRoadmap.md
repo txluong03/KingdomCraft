@@ -25,11 +25,41 @@ lượng thực tế (hiện 2 nguồn sản xuất — building và NPC theo ro
 nhau, xem [[KingdomSystem]]); CI tối thiểu (`.github/` đã có nhưng chưa xác
 nhận workflow build/test tự động — xem [[Milestones]] Sprint 1, [[CI_CD]]).
 
-## Bước 1 — Core Loop tối thiểu
-1. `Player` — thực thể người chơi trong Core (hiện đã có file nhưng gần trống)
-2. `Inventory` cơ bản
-3. World/Chunk render được ở Client (đặt/phá khối)
-4. `KingdomState` + `AutomationSystem` chạy ổn định, có test
+## Bước 1 — Core Loop tối thiểu ✅ Đã xong về code, chờ xác nhận trực quan (2026-07-28)
+1. [x] `Player` — vẫn đơn giản (Health/Hunger/Level/Experience/Position),
+   thêm `Inventory` thay cho `Dictionary<string,int>` thô.
+2. [x] `Inventory` cơ bản — `Entities/Inventory.cs` (`ItemStack` + `Inventory`
+   dạng slot, `itemId` chuỗi tự do vì [[ItemTypes]] chưa chốt danh mục cụ
+   thể). Test: `InventoryTests` (6 case).
+3. [x] World/Chunk render ở Client (đặt/phá khối) — `Game1`,
+   `Rendering/ChunkMeshBuilder` (naive face-culling, không texture),
+   `Rendering/VoxelRaycaster` (step-marching ray), `Rendering/FlyCamera`
+   (bàn phím, không mouse-look), `World/DemoWorldGenerator` (địa hình phẳng
+   demo — chưa phải world gen thật, xem [[TerrainGeneration]]). Chuột trái
+   phá khối, chuột phải đặt Dirt. **`dotnet build` sạch nhưng chưa được
+   kiểm tra trực quan** — môi trường phát triển không có màn hình để chạy
+   MonoGame. Cần tự `dotnet run --project src/KingdomCraft.Client` và báo
+   lại nếu render/điều khiển có vấn đề (đặc biệt: mặt khối có hiển thị
+   đúng không — hiện tắt hẳn backface culling để né rủi ro sai chiều
+   winding không kiểm tra được).
+4. [x] `KingdomState` + `AutomationSystem` — thêm test Miner, cộng dồn
+   NPC+Building, cap `AutomationLevel` ở 100 (tổng 9 test cho automation +
+   building).
+
+## Kiến trúc bổ sung — Application layer ✅ Đã xong (2026-07-28)
+Thêm `KingdomCraft.Application` (AppService + DTO), mượn convention
+`FooAppService`/`CreateFooInput`/`FooDto` từ dự án OC-TXNG của người dùng —
+**chỉ mượn khung code, không mượn nội dung/business logic**, và không kèm
+EF Core/multi-tenant/RBAC (chưa cần ở quy mô hiện tại, xem [[Decisions]]).
+- `Application/Kingdom/KingdomAppService.cs`: `GetKingdomState`, `Tick`,
+  `CreateBuilding`, `RecruitNpc`, `AssignNpcRole` — nhận Input DTO, trả về
+  Dto, không lộ thẳng `KingdomState`/`Building`/`Npc` domain entity ra ngoài.
+- `KingdomCraft.Server` giờ gọi qua `KingdomAppService.Tick()` thay vì gọi
+  thẳng `AutomationSystem.Tick()`.
+- 5 test mới (`KingdomAppServiceTests`), tổng 17 test pass.
+- Mục đích: chuẩn bị sẵn ranh giới cho Bước 3 (networking — Server expose
+  đúng các method này qua API/socket thay vì viết lại) và Bước 5 (Save/Load
+  — serialize DTO thay vì domain entity).
 
 ## Bước 2 — Gameplay cốt lõi
 5. Crafting (recipe tối thiểu)

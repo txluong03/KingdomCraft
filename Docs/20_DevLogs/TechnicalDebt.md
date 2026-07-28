@@ -11,6 +11,8 @@ xử lý. Thứ tự ưu tiên nên bám theo trình tự thật của [[Develop
 | TD-03 | ~~Khởi tạo git repository~~ — **Xong** (KI-03). Còn thiếu: áp dụng [[BranchStrategy]] đầy đủ (feature branch/PR) | Trung bình | [[BranchStrategy]] |
 | TD-04 | Xây networking thật cho `KingdomCraft.Server`, thay vòng lặp `Task.Delay` demo (KI-04) | Trung bình | [[DevelopmentRoadmap]] |
 | TD-05 | Chưa có CI — `.github/` hiện chỉ có `copilot-instructions.md`, chưa có workflow build/test tự động | Cao | [[CI_CD]], [[Milestones]] |
+| TD-06 | Xác nhận trực quan render Client (`Game1`) trên máy có màn hình, sau đó bật lại backface culling đúng chiều winding thay vì `CullMode.None` (KI-05) | Cao | [[DevelopmentRoadmap]] Bước 1 |
+| TD-07 | Liên kết `Building.AssignedNpcId` với sản lượng thực tế thay vì 2 nguồn (building + NPC role) độc lập (KI-06) | Trung bình | [[KingdomSystem]] |
 
 ## Liên kết
 [[KnownIssues]] · [[DevelopmentRoadmap]] · [[Milestones]] · [[RiskManagement]]

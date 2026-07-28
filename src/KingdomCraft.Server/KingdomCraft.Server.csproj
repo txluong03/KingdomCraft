@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KingdomCraft.Core\KingdomCraft.Core.csproj" />
+    <ProjectReference Include="..\KingdomCraft.Application\KingdomCraft.Application.csproj" />
   </ItemGroup>
 
 </Project>
