@@ -20,7 +20,7 @@ KingdomCraft/
 │   └── KingdomCraft.Server/    # Server headless cho multiplayer
 ├── tests/
 │   └── KingdomCraft.Tests/     # Unit test (xUnit)
-└── docs/                       # Tài liệu thiết kế game (xem docs/README.md)
+└── KingdomCraft-Docs/          # Tài liệu dự án đầy đủ (xem KingdomCraft-Docs/README.md)
 ```
 
 ## Yêu cầu
@@ -34,7 +34,12 @@ dotnet build
 dotnet run --project src/KingdomCraft.Server
 ```
 
-## Tài liệu thiết kế
-Xem thư mục `docs/` — đã dựng sẵn khung mục cho từng mảng (Sandbox, Survival,
-City Builder, Kingdom Simulation, RPG, Multiplayer, Roadmap). Gửi thêm thông
-tin chi tiết, mình sẽ điền trực tiếp vào các file tương ứng.
+## Tài liệu dự án
+Xem thư mục `KingdomCraft-Docs/` — bộ tài liệu đầy đủ 21 nhóm (Project, BRD,
+GDD, Gameplay, World Generation, Player, NPC/AI, Items, Crafting, Building,
+Combat, Database, API, Server, UI/UX, TestCase, Deployment, Art, Audio, Lore,
+DevLogs). `00_Project/ProjectVision.md` và `00_Project/ProjectScope.md` là
+2 file nên đọc trước tiên. `00_Project` và `02_GDD` đã có nội dung đầy đủ;
+các nhóm còn lại hiện là khung sườn (mục đích, nội dung cần điền, câu hỏi
+mở) — điền trực tiếp vào file tương ứng khi có quyết định thiết kế mới,
+không tạo file rời rạc.

@@ -1,21 +1,51 @@
-# KingdomCraft - Tài liệu thiết kế
+# KingdomCraft — Tài liệu dự án
 
-Thư mục này chứa toàn bộ tài liệu thiết kế (game design docs) cho KingdomCraft.
-Mỗi file tương ứng với một mảng nội dung. Khi có thêm thông tin, hãy điền/mở rộng
-trực tiếp vào các file tương ứng bên dưới thay vì tạo file rời rạc mới, để giữ
-tài liệu tập trung và dễ tra cứu.
+Bộ tài liệu đầy đủ cho KingdomCraft nếu phát triển thành game thương mại
+cỡ trung. Thay thế cho `docs/` cũ (đã migrate toàn bộ nội dung sang đây).
 
-## Danh sách tài liệu
+> Xem [[ProjectVision]] và [[ProjectScope]] trước tiên nếu bạn mới tham gia
+> dự án — đó là 2 file quan trọng nhất để hiểu game này là gì và không là
+> gì.
 
-- `00-Overview.md` — Tầm nhìn tổng thể, điểm khác biệt so với Minecraft.
-- `01-Sandbox.md` — Hệ thống thế giới mở, khối/vật liệu, xây dựng tự do.
-- `02-Survival.md` — Sinh tồn: đói, sức khỏe, thời tiết, mùa, nguy hiểm.
-- `03-CityBuilder.md` — Xây dựng đô thị/vương quốc: công trình, quy hoạch.
-- `04-KingdomSimulation.md` — Mô phỏng vương quốc & NPC tự động (cơ chế "chuyển giao").
-- `05-RPG.md` — Nhân vật, chỉ số, kỹ năng, nhiệm vụ, cốt truyện.
-- `06-Multiplayer.md` — Kiến trúc nhiều người chơi, đồng bộ, server.
-- `07-Roadmap.md` — Lộ trình phát triển theo giai đoạn.
+## Trạng thái nội dung
+- **00_Project** và **02_GDD** — đã viết nội dung đầy đủ, phản ánh các
+  quyết định thiết kế đã thảo luận và hiện trạng code thật trong
+  `src/KingdomCraft.Core`.
+- **Các nhóm còn lại (01, 03–20)** — mỗi file là khung tham khảo (mục đích,
+  nội dung cần điền, câu hỏi mở, liên kết), chưa có nội dung/số liệu cuối
+  cùng. Điền trực tiếp vào file tương ứng khi có quyết định, không tạo file
+  rời rạc mới.
 
-## Ghi chú
-Đây là bộ khung ban đầu — mỗi file hiện có mục lục gợi ý và vài dòng đặt vấn đề.
-Gửi thông tin chi tiết ở bất kỳ mảng nào, mình sẽ điền trực tiếp vào file tương ứng.
+## Cấu trúc
+```
+00_Project/         Tầm nhìn, phạm vi, roadmap, quy ước code, quản lý rủi ro
+01_BRD/              Yêu cầu nghiệp vụ (góc nhìn BA)
+02_GDD/              Game Design Document — linh hồn thiết kế game
+03_Gameplay/         Chi tiết từng luồng gameplay
+04_WorldGeneration/  Sinh thế giới
+05_Player/           Nhân vật người chơi
+06_NPC_AI/           NPC và AI
+07_Items/            Vật phẩm
+08_Crafting/         Chế tạo
+09_Building/         Xây dựng
+10_Combat/           Chiến đấu
+11_Database/         Thiết kế dữ liệu
+12_API/               API/giao tiếp client-server
+13_Server/           Kiến trúc server, mạng, multiplayer
+14_UI_UX/             Giao diện, trải nghiệm
+15_TestCase/          Test case
+16_Deployment/        CI/CD, phát hành, vận hành
+17_Art/                Định hướng mỹ thuật
+18_Audio/              Âm thanh
+19_Lore/               Cốt truyện, thế giới quan
+20_DevLogs/            Nhật ký phát triển, quyết định, technical debt
+```
+
+## Quy ước liên kết
+Các file dùng cú pháp `[[TenFile]]` để trỏ tới file khác trong bộ tài liệu
+(không phân biệt nhóm) — tra theo tên file, không theo đường dẫn đầy đủ.
+
+## Liên hệ code hiện tại
+Xem [[DevelopmentRoadmap]] để biết tài liệu này liên hệ thế nào với hiện
+trạng thật của `src/KingdomCraft.Core` (bao gồm việc cần hợp nhất 2 bộ
+model đang tồn tại song song).
